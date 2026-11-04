@@ -2,7 +2,7 @@
 
 This repo studies **prompt sensitivity** in clinical multiple-choice question (MCQ) benchmarks and tests the limits of short, generic **“magic prompt”** injections that are often claimed to universally improve reasoning.
 
-The working design doc is in Chinese: `项目设计.md`.
+The repository contains evaluation code and a reusable manuscript template. Generated manuscripts and project-specific working documents are not tracked.
 
 ## What’s included
 
@@ -10,7 +10,7 @@ The working design doc is in Chinese: `项目设计.md`.
 - **Universal magic prompt**: select a short injection on a disjoint dev set, then evaluate on held-out test sets.
 - **Benchmark reliability audit**: leaderboard stability metrics (rank reversals, Kendall’s τ, within-model range vs between-model gap).
 - **Risk-controlled deployment idea (offline)**: calibration-based *selective injection* simulation to trade off expected gain vs drawdown risk.
-- **Manuscript generation**: render a Nature-style draft from a Jinja2 template; optionally polish with an LLM reviewer/writer loop.
+- **Manuscript generation**: render a local draft from a reusable Jinja2 template; optionally polish with an LLM reviewer/writer loop.
 
 ## Quickstart
 
@@ -105,7 +105,7 @@ Generated artifacts are intentionally git-ignored:
 - Figures: `figures/<RUN_ID>/`
 - OpenRouter cache (responses): `cache/openrouter/`
 
-The main manuscript entrypoints:
+The pipeline generates local manuscript files (git-ignored):
 
 - Draft: `manuscript/Nature_draft.md`
 - Polished: `manuscript/Nature_final.md`

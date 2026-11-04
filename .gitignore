@@ -9,3 +9,8 @@ __pycache__/
 cache/
 outputs/
 figures/
+
+# Local working documents and generated manuscripts
+/项目设计.md
+/manuscript/Nature_draft.md
+/manuscript/Nature_final.md
