@@ -1,47 +1,56 @@
 # {{ title }}
 
 ## Abstract
-Clinical reasoning benchmarks are increasingly used to compare foundation models and to motivate clinical deployments. Yet evaluations are often reported under a single prompt, implicitly treating wording as a nuisance variable. Here we quantify prompt sensitivity in medical multiple-choice question answering (MCQ) evaluation and test the limits of a fixed “magic prompt” injection. Across {{ key_results.core_models_n }} frontier models and semantically aligned prompt paraphrases, the same questions yield large within-model accuracy dispersion (median within-model range: {{ key_results.prompt_range_median }} percentage points; MedXpertQA subset). We then select a short injection on a disjoint dev set and evaluate it on held-out test items from three medical QA datasets (n={{ key_results.n_questions }} questions; {{ key_results.core_models_n }} models), finding heterogeneous effects and an overall mean accuracy change of {{ key_results.magic_gain_mean }} percentage points (95% paired bootstrap CI {{ key_results.magic_gain_ci_low }} to {{ key_results.magic_gain_ci_high }}). Overall, prompt wording and prompt-level interventions can materially change measured medical QA capability and should be validated across prompts, datasets, and models before deployment.
+
+<!-- Summarize the objective, approach, principal findings, and conclusion. -->
 
 ## Main Text
 
 ### Introduction
-Large language models (LLMs) are rapidly adopted for clinical question answering and reasoning benchmarks. However, medical evaluations often report point estimates under a single prompt, implicitly assuming that prompt phrasing is a minor nuisance variable. In high-stakes settings, this assumption is risky: small instruction changes can reshape the model’s behavior, potentially altering diagnosis and management choices. We test whether (i) meaning-preserving prompt paraphrases systematically change MCQ accuracy under deterministic decoding, and (ii) a fixed, short injection prompt can robustly improve performance across datasets and models.
+
+<!-- Describe the background, knowledge gap, and research objective. -->
 
 ### Results
 
-#### Prompt sensitivity in medical QA (MedPrompt Effect)
-Across the core model panel ({{ key_results.core_models_n }} models) and datasets, we observe clear prompt sensitivity even with deterministic decoding. On the MedXpertQA subset, within-model accuracy varied across paraphrased prompts with a median range of {{ key_results.prompt_range_median }} percentage points (IQR {{ key_results.prompt_range_iqr_low }}–{{ key_results.prompt_range_iqr_high }}).
+<!-- Interpret the generated values and add context where appropriate. -->
 
-#### A short injection prompt shows heterogeneous effects
-We performed a dev-set search over candidate short injections and selected the best-performing fixed prompt:
+- Primary analysis: {{ key_results.core_models_n }} models; {{ key_results.n_questions }} items.
+- Median within-model range: {{ key_results.prompt_range_median }} percentage points (IQR {{ key_results.prompt_range_iqr_low }}–{{ key_results.prompt_range_iqr_high }}).
+- Mean difference: {{ key_results.magic_gain_mean }} percentage points (95% CI {{ key_results.magic_gain_ci_low }}–{{ key_results.magic_gain_ci_high }}).
+- Difference in invalid outputs: {{ key_results.invalid_reduction }} percentage points.
+
+**Evaluation input**
 
 > {{ magic_prompt }}
 
-On held-out test sets, adding this injection to the baseline question prompt changed mean accuracy by {{ key_results.magic_gain_mean }} percentage points (95% bootstrap CI {{ key_results.magic_gain_ci_low }}–{{ key_results.magic_gain_ci_high }}) across the core model panel. Effects were heterogeneous across datasets and models (Table 1; Fig. 2), underscoring that prompt injections can help or hurt depending on context. The overall change in invalid-format outputs (baseline − magic) was {{ key_results.invalid_reduction }} percentage points.
-
 {% if tables and tables.core_results %}
-**Table 1 | Core model accuracy with and without the magic prompt.**
+**Table 1 | Primary analysis results.**
 
 {{ tables.core_results }}
 {% endif %}
 
 {% if tables and tables.extended_results %}
-**Table 2 | Extended model panel on MedXpertQA (subset) with and without the magic prompt.**
+**Table 2 | Extended analysis results.**
 
 {{ tables.extended_results }}
 {% endif %}
 
 ### Discussion
-The MedPrompt Effect implies that single-prompt medical evaluations can understate or overstate true capability. Our prompt-injection experiment further suggests that “magic prompts” selected on small dev sets may not transfer uniformly: we observe meaningful shifts in accuracy, but not a universally positive gain across datasets and models. In practice, this motivates reporting prompt-sensitivity ranges, evaluating multiple semantically equivalent prompts, and validating any candidate prompt-level intervention on disjoint data before clinical use.
+
+<!-- Interpret the findings, discuss limitations, and explain implications. -->
+
+### Conclusion
+
+<!-- State the main conclusion supported by the analysis. -->
 
 ## Methods (Summary)
-We evaluated multiple LLMs via OpenRouter on multiple-choice medical QA datasets. For each example, models received the question stem and answer options and were instructed to output exactly one option label from the provided set (e.g., A–D for 4-option datasets and A–J for MedXpertQA). Prompt sensitivity was measured across four meaning-equivalent paraphrases. The magic prompt was selected on a disjoint dev set by maximizing mean accuracy improvement across two representative models, then evaluated on held-out test items. Uncertainty was estimated using paired bootstrap resampling over paired model–question IDs.
+
+<!-- Describe the study design, data sources, procedures, and statistical methods. -->
 
 ## Data and Code Availability
-All code to reproduce the analyses is included in this repository. Raw run logs, aggregates, and figures are written to `outputs/` and `figures/` when running `python scripts/run_all.py`.
+
+<!-- State where the data, code, and reproducibility materials can be accessed. -->
 
 ## Figures
-**Figure 1 | Prompt sensitivity.** Distribution of within-model accuracy ranges across meaning-equivalent paraphrases (MedXpertQA subset).
 
-**Figure 2 | Magic prompt gains.** Per-model accuracy improvement (percentage points) on MedXpertQA for the core model panel.
+<!-- Add captions that describe each figure, its panels, and relevant units. -->
